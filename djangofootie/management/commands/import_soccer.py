@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from optparse import make_option
-from soccerstats.soccer.utils import store_footbal_data
+from djangofootie.utils import store_footbal_data
 from urllib2 import urlopen
 from django.conf import settings
 import os

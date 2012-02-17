@@ -1,9 +1,19 @@
 from models import Game,Team,GameStatistic,Statistic,TeamGame
 from datetime import datetime 
+from djangofootie.models import TeamLookup
 def store_footbal_data(reader):
     teams = dict([(x.name,x) for x in Team.objects.all()])
     statistics = dict([(x.name,x) for x in Statistic.objects.all()])
+        
+        
     for row in reader:
+        skip = False
+        for team in (row['HomeTeam'],row['AwayTeam']):
+            if not team in teams:
+                skip = True
+                TeamLookup.objects.get_or_create(name=team)
+        if skip: 
+            continue
         game_name = "%s at %s" % (row['HomeTeam'], row['AwayTeam'])
         game_datetime = datetime.strptime(row['Date'],"%d/%m/%y")
         game,created = Game.objects.get_or_create(name=game_name,start_date=game_datetime.date())

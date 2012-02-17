@@ -1,7 +1,12 @@
 from django.db import models
 
+
 class Team(models.Model):
     name = models.CharField(max_length=128)
+
+class TeamLookup(models.Model):
+    name = models.CharField(max_length=128)
+    team = models.ForeignKey(Team,blank=True,null=True)
     
 class Game(models.Model):
     name = models.CharField(max_length=128)
